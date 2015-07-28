@@ -1,8 +1,8 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="D:\develop\mqtt\MQTT (Network Client) help.v4p" scrollx="0" scrolly="0" systemname="MQTT (Network Client) help" filename="D:\develop\mqtt\MQTT (Network Client) help.v4p">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta34.dtd" >
+   <PATCH nodename="d:\DTAG\VVVV-MQTT\MQTT (Network Client) help.v4p" scrollx="0" scrolly="1890" systemname="MQTT (Network Client) help" filename="D:\develop\mqtt\MQTT (Network Client) help.v4p">
    <BOUNDS type="Window" left="8085" top="870" width="9000" height="14550">
    </BOUNDS>
-   <PACK Name="addonpack" Version="33.7.0">
+   <PACK Name="addonpack" Version="34.0.0">
    </PACK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="3" systemname="IOBox (String)">
    <BOUNDS type="Node" left="225" top="225" width="5100" height="450">
@@ -26,38 +26,12 @@
    <PIN pinname="Output String" slicecount="1" visible="0" values="||">
    </PIN>
    </NODE>
-   <NODE nodename="MQTT (Network Client)" componentmode="Hidden" id="0" systemname="MQTT (Network Client)" filename="plugins\MQTT\MQTTNetwork.csproj">
-   <BOUNDS type="Node" left="405" top="8310" width="6810" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="405" top="8310" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Enabled" visible="1">
-   </PIN>
-   <PIN pinname="Broker URL" visible="1">
-   </PIN>
-   <PIN pinname="Connected" visible="1">
-   </PIN>
-   <PIN pinname="Topic" visible="1" slicecount="1" values="vvvv/topic">
-   </PIN>
-   <PIN pinname="ClientID" visible="1">
-   </PIN>
-   <PIN pinname="Qualiy of Service" visible="1">
-   </PIN>
-   <PIN pinname="Message" visible="1">
-   </PIN>
-   <PIN pinname="Do Send" visible="1">
-   </PIN>
-   <PIN pinname="Connection Status" visible="1">
-   </PIN>
-   <PIN pinname="Message Status" visible="1">
-   </PIN>
-   </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="4" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="7155" top="7530" width="480" height="480">
+   <BOUNDS type="Box" left="8640" top="5520" width="480" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="7155" top="7530" width="0" height="0">
+   <BOUNDS type="Node" left="8640" top="5520" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
    </PIN>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -69,17 +43,15 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Enabled">
    </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
+   <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Enabled">
-   </LINK>
    <NODE systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" id="5">
-   <BOUNDS type="Node" left="5805" top="7515" width="100" height="100">
+   <BOUNDS type="Node" left="4110" top="5685" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Box" left="5805" top="7515" width="1110" height="300">
+   <BOUNDS type="Box" left="4110" top="5685" width="1110" height="300">
    </BOUNDS>
    <PIN pinname="Input String" visible="1" slicecount="1" values="mosquitto.org">
    </PIN>
@@ -88,12 +60,10 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Broker adress|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="0" dstpinname="Broker URL">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="6" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="7155" top="8625" width="810" height="240">
+   <BOUNDS type="Box" left="8610" top="6840" width="810" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="7155" top="8625" width="0" height="0">
+   <BOUNDS type="Node" left="8610" top="6840" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
@@ -105,9 +75,9 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Connected">
    </PIN>
+   <PIN pinname="Y Input Value" visible="1" slicecount="1" values="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="0" srcpinname="Connected" dstnodeid="6" dstpinname="Y Input Value">
-   </LINK>
    <NODE systemname="IOBox (String)" nodename="IOBox (String)" componentmode="InABox" id="8">
    <BOUNDS type="Node" left="615" top="990" width="100" height="100">
    </BOUNDS>
@@ -233,9 +203,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="17" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="375" top="5820" width="975" height="315">
+   <BOUNDS type="Box" left="150" top="7260" width="975" height="315">
    </BOUNDS>
-   <BOUNDS type="Node" left="375" top="5820" width="0" height="0">
+   <BOUNDS type="Node" left="150" top="7260" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="1" visible="1" values="vvvv/topic">
    </PIN>
@@ -249,7 +219,7 @@
    </PIN>
    </NODE>
    <NODE systemname="Add (String)" nodename="Add (String)" componentmode="Hidden" id="19">
-   <BOUNDS type="Node" left="390" top="6480" width="1050" height="270">
+   <BOUNDS type="Node" left="150" top="7890" width="1050" height="270">
    </BOUNDS>
    <PIN pinname="Input 2" visible="1" slicecount="1" values="5">
    </PIN>
@@ -267,9 +237,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="18" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="1380" top="5835" width="435" height="585">
+   <BOUNDS type="Box" left="1140" top="7245" width="435" height="585">
    </BOUNDS>
-   <BOUNDS type="Node" left="1380" top="5835" width="0" height="0">
+   <BOUNDS type="Node" left="1140" top="7245" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="3" values="1,2,3">
    </PIN>
@@ -291,9 +261,9 @@
    <LINK srcnodeid="18" srcpinname="Output String" dstnodeid="19" dstpinname="Input 2">
    </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="20" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="405" top="7200" width="915" height="735">
+   <BOUNDS type="Box" left="165" top="8610" width="915" height="735">
    </BOUNDS>
-   <BOUNDS type="Node" left="405" top="7200" width="0" height="0">
+   <BOUNDS type="Node" left="165" top="8610" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="3" visible="1" values="1,2,3">
    </PIN>
@@ -314,14 +284,12 @@
    </NODE>
    <LINK srcnodeid="19" srcpinname="Output" dstnodeid="20" dstpinname="Input String">
    </LINK>
-   <LINK srcnodeid="20" srcpinname="Output String" dstnodeid="0" dstpinname="Topic">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="21" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="5130" top="6480" width="1170" height="285">
+   <BOUNDS type="Box" left="1845" top="5850" width="1170" height="285">
    </BOUNDS>
-   <BOUNDS type="Node" left="5130" top="6480" width="0" height="0">
+   <BOUNDS type="Node" left="1845" top="5850" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" visible="1" values="v4mqtt_Sender">
+   <PIN pinname="Input String" slicecount="1" visible="1" values="v4mqtt">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="v4mqtt">
    </PIN>
@@ -331,25 +299,23 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="ClientID">
    </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="21" srcpinname="Output String" dstnodeid="0" dstpinname="ClientID">
-   </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="22" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="1755" top="7770" width="780" height="240">
+   <BOUNDS type="Box" left="2430" top="8160" width="780" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="1755" top="7770" width="0" height="0">
+   <BOUNDS type="Node" left="2430" top="8160" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" visible="1" values="QoS_2">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="|Qualiy of Service|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="22" srcpinname="Output Enum" dstnodeid="0" dstpinname="Qualiy of Service">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="25" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="2085" top="5820" width="1215" height="630">
+   <BOUNDS type="Box" left="1050" top="8235" width="1215" height="630">
    </BOUNDS>
-   <BOUNDS type="Node" left="2085" top="5820" width="0" height="0">
+   <BOUNDS type="Node" left="1050" top="8235" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="3" values="everything,|you know|,|is wrong|">
    </PIN>
@@ -368,34 +334,10 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="Message">
    </PIN>
    </NODE>
-   <LINK srcnodeid="25" srcpinname="Output String" dstnodeid="0" dstpinname="Message">
-   </LINK>
-   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="26" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="3495" top="5820" width="735" height="2100">
-   </BOUNDS>
-   <BOUNDS type="Node" left="3495" top="5820" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
-   </PIN>
-   <PIN pinname="Units" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Precision" slicecount="1" values="4">
-   </PIN>
-   <PIN pinname="Value Type" slicecount="1" values="Boolean">
-   </PIN>
-   <PIN pinname="Behavior" slicecount="1" values="Bang">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="|Do Send|">
-   </PIN>
-   <PIN pinname="X Input Value" slicecount="1" values="0">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="26" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Do Send">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="27" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="6210" top="9285" width="2430" height="450">
+   <BOUNDS type="Box" left="5235" top="7335" width="4245" height="315">
    </BOUNDS>
-   <BOUNDS type="Node" left="6210" top="9285" width="0" height="0">
+   <BOUNDS type="Node" left="5235" top="7335" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
@@ -403,51 +345,19 @@
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="|28.07.2015 11:57:27: Connected to broker: mosquitto.org at Port: 1883.&cr;&lf;|">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="0" srcpinname="Connection Status" dstnodeid="27" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="28" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="5235" top="9780" width="3405" height="480">
+   <BOUNDS type="Box" left="5100" top="9780" width="3405" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="5235" top="9780" width="0" height="0">
+   <BOUNDS type="Node" left="5100" top="9780" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
    <PIN pinname="File Mask" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="0" srcpinname="Message Status" dstnodeid="28" dstpinname="Input String">
-   </LINK>
-   <NODE nodename="MQTT (Network Client)" componentmode="Hidden" id="38" systemname="MQTT (Network Client)" filename="plugins\MQTT\MQTTNetwork.csproj">
-   <BOUNDS type="Node" left="390" top="11715" width="6810" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="390" top="11715" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Enabled" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Broker URL" visible="1" slicecount="1" values="mosquitto.org">
-   </PIN>
-   <PIN pinname="Connected" visible="1">
-   </PIN>
-   <PIN pinname="Topic" visible="1" slicecount="3" values="vvvv/topic1,vvvv/topic2,vvvv/topic3">
-   </PIN>
-   <PIN pinname="ClientID" visible="1" slicecount="1" values="v4mqtt">
-   </PIN>
-   <PIN pinname="Qualiy of Service" visible="1">
-   </PIN>
-   <PIN pinname="Message" visible="1" slicecount="1" values="|hello vvvv|">
-   </PIN>
-   <PIN pinname="Do Send" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Connection Status" visible="1">
-   </PIN>
-   <PIN pinname="Message Status" visible="1">
-   </PIN>
-   <PIN pinname="Receive" visible="1">
-   </PIN>
-   <PIN pinname="On Data" visible="1">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="35" systemname="IOBox (Value Advanced)">
@@ -465,21 +375,19 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Connected">
    </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="38" srcpinname="Connected" dstnodeid="35" dstpinname="Y Input Value">
-   </LINK>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="32" systemname="IOBox (Enumerations)">
-   <BOUNDS type="Box" left="1740" top="10905" width="1245" height="270">
+   <BOUNDS type="Box" left="3645" top="13230" width="1245" height="270">
    </BOUNDS>
-   <BOUNDS type="Node" left="1740" top="10905" width="0" height="0">
+   <BOUNDS type="Node" left="3645" top="13230" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input Enum" slicecount="1" visible="1" values="QoS_1">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="|Qualiy of Service|">
    </PIN>
    </NODE>
-   <LINK srcnodeid="32" srcpinname="Output Enum" dstnodeid="38" dstpinname="Qualiy of Service">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="30" systemname="IOBox (String)">
    <BOUNDS type="Box" left="6195" top="12690" width="2430" height="450">
    </BOUNDS>
@@ -491,9 +399,9 @@
    </PIN>
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
+   <PIN pinname="Input String" slicecount="1" values="|28.07.2015 11:27:35: Connected to broker: mosquitto.org at Port: 1883.&cr;&lf;|">
+   </PIN>
    </NODE>
-   <LINK srcnodeid="38" srcpinname="Connection Status" dstnodeid="30" dstpinname="Input String">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="29" systemname="IOBox (String)">
    <BOUNDS type="Box" left="5220" top="13185" width="3405" height="480">
    </BOUNDS>
@@ -506,16 +414,10 @@
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="38" srcpinname="Message Status" dstnodeid="29" dstpinname="Input String">
-   </LINK>
-   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="38" dstpinname="Enabled" hiddenwhenlocked="1">
-   </LINK>
-   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="38" dstpinname="Broker URL" hiddenwhenlocked="1">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="39" systemname="IOBox (Value Advanced)">
-   <BOUNDS type="Box" left="4440" top="10560" width="555" height="480">
+   <BOUNDS type="Box" left="4620" top="9135" width="555" height="480">
    </BOUNDS>
-   <BOUNDS type="Node" left="4440" top="10560" width="0" height="0">
+   <BOUNDS type="Node" left="4620" top="9135" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
    </PIN>
@@ -532,56 +434,26 @@
    <PIN pinname="X Input Value" slicecount="1" values="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="39" srcpinname="Y Output Value" dstnodeid="38" dstpinname="Receive">
-   </LINK>
-   <NODE nodename="IOBox (String)" componentmode="InABox" id="40" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="5115" top="10800" width="1350" height="270">
-   </BOUNDS>
-   <BOUNDS type="Node" left="5115" top="10800" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" visible="1" values="v4mqtt_Receiver">
-   </PIN>
-   <PIN pinname="Default" slicecount="1" values="v4mqtt">
-   </PIN>
-   <PIN pinname="File Mask" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
-   </PIN>
-   <PIN pinname="Descriptive Name" slicecount="1" values="ClientID">
-   </PIN>
-   <PIN pinname="Output String" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="40" srcpinname="Output String" dstnodeid="38" dstpinname="ClientID">
-   </LINK>
    <NODE systemname="S+H (String)" nodename="S+H (String)" componentmode="Hidden" id="41">
    <BOUNDS type="Node" left="390" top="12300" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Set" visible="1">
+   <PIN pinname="Set" visible="1" slicecount="1" values="0">
    </PIN>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="38" srcpinname="On Data" dstnodeid="41" dstpinname="Set">
-   </LINK>
-   <LINK srcnodeid="38" srcpinname="Topic" dstnodeid="41" dstpinname="Input">
-   </LINK>
    <NODE systemname="S+H (String)" nodename="S+H (String)" componentmode="Hidden" id="42">
    <BOUNDS type="Node" left="1785" top="12300" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Set" visible="1">
+   <PIN pinname="Set" visible="1" slicecount="1" values="0">
    </PIN>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="38" srcpinname="On Data" dstnodeid="42" dstpinname="Set">
-   </LINK>
-   <LINK srcnodeid="38" srcpinname="Message" dstnodeid="42" dstpinname="Input">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="43" systemname="IOBox (String)">
    <BOUNDS type="Box" left="390" top="12765" width="1305" height="945">
    </BOUNDS>
@@ -674,8 +546,6 @@
    </LINK>
    <LINK srcnodeid="19" srcpinname="Output" dstnodeid="47" dstpinname="Input 1">
    </LINK>
-   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="38" dstpinname="Topic">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="48" systemname="IOBox (String)">
    <BOUNDS type="Node" left="9720" top="8880" width="2355" height="270">
    </BOUNDS>
@@ -746,4 +616,156 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
+   <NODE id="26" nodename="IOBox (Value Advanced)" componentmode="InABox" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3870" top="7725" width="840" height="600">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3870" top="7725" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Do Send|">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="53">
+   <BOUNDS type="Node" left="5385" top="8730" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5385" top="8730" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="19665" top="8070" width="6120" height="4860">
+   </BOUNDS>
+   </NODE>
+   <NODE systemname="Sender (Network MQTT)" filename="..\retail-simulator\Software\Nodes\plugins\MQTT\MQTT.dll" nodename="Sender (Network MQTT)" componentmode="Hidden" id="54">
+   <BOUNDS type="Node" left="7950" top="8745" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <NODE nodename="Client (Network MQTT)" componentmode="Hidden" id="0" systemname="Client (Network MQTT)" filename="..\retail-simulator\Software\Nodes\plugins\MQTT\MQTT.dll">
+   <BOUNDS type="Node" left="1860" top="6450" width="6810" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1860" top="6450" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Enabled" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Broker URL" visible="1" slicecount="1" values="localhost">
+   </PIN>
+   <PIN pinname="Connected" visible="1">
+   </PIN>
+   <PIN pinname="Topic" visible="1" slicecount="1" values="vvvv/topic">
+   </PIN>
+   <PIN pinname="ClientID" visible="1" slicecount="1" values="v4mqtt">
+   </PIN>
+   <PIN pinname="Qualiy of Service" visible="1" slicecount="1" values="QoS_0">
+   </PIN>
+   <PIN pinname="Message" visible="1" slicecount="1" values="|hello vvvv|">
+   </PIN>
+   <PIN pinname="Do Send" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Connection Status" visible="1">
+   </PIN>
+   <PIN pinname="Message Status" visible="1">
+   </PIN>
+   <PIN pinname="Client" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="Output String" dstnodeid="0" dstpinname="ClientID">
+   </LINK>
+   <LINK srcnodeid="5" srcpinname="Output String" dstnodeid="0" dstpinname="Broker URL">
+   </LINK>
+   <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Enabled">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Connected" dstnodeid="6" dstpinname="Y Input Value">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Connection Status" dstnodeid="27" dstpinname="Input String">
+   </LINK>
+   <NODE nodename="IOBox (Node)" componentmode="InABox" id="55" systemname="IOBox (Node)">
+   <BOUNDS type="Box" left="2415" top="7215" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2415" top="7215" width="0" height="0">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Client" dstnodeid="55" dstpinname="Input Node">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="56" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="6795" top="5685" width="375" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="6795" top="5685" width="375" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="mq">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE systemname="Sender (Network MQTT)" filename="..\retail-simulator\Software\Nodes\plugins\MQTT\MQTT.dll" nodename="Sender (Network MQTT)" componentmode="Hidden" id="58">
+   <BOUNDS type="Node" left="2970" top="10125" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="Retained" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Receive" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Topic" visible="1" slicecount="1" values="vvvv/topic">
+   </PIN>
+   <PIN pinname="Do Send" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Client" dstnodeid="58" dstpinname="Client">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="59" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="3000" top="10995" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3000" top="10995" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="58" srcpinname="Topic" dstnodeid="59" dstpinname="Input String">
+   </LINK>
+   <LINK srcnodeid="47" srcpinname="Output" dstnodeid="58" dstpinname="Topic">
+   </LINK>
+   <LINK srcnodeid="26" srcpinname="Y Output Value" dstnodeid="58" dstpinname="Do Send">
+   </LINK>
+   <NODE systemname="Receiver (Network MQTT)" filename="..\retail-simulator\Software\Nodes\plugins\MQTT\MQTT.dll" nodename="Receiver (Network MQTT)" componentmode="Hidden" id="60">
+   <BOUNDS type="Node" left="1785" top="11610" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Client" visible="1">
+   </PIN>
+   <PIN pinname="Topic" visible="1" slicecount="1" values="vvvv/topic">
+   </PIN>
+   <PIN pinname="Message" visible="1">
+   </PIN>
+   <PIN pinname="On Data" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Client" dstnodeid="60" dstpinname="Client">
+   </LINK>
+   <LINK srcnodeid="60" srcpinname="Topic" dstnodeid="41" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="60" srcpinname="Message" dstnodeid="42" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="60" srcpinname="On Data" dstnodeid="41" dstpinname="Set">
+   </LINK>
+   <LINK srcnodeid="60" srcpinname="On Data" dstnodeid="42" dstpinname="Set">
+   </LINK>
    </PATCH>
