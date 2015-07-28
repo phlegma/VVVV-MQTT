@@ -6,6 +6,8 @@ using VVVV.PluginInterfaces.V2;
 using VVVV.Core.Logging;
 
 //functionality related
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -17,13 +19,23 @@ namespace VVVV.Nodes.MQTT
     /// base class setting up mqtt-client connection to the broker
     /// including vvvv plugininterfacing
     /// </summary>
-    public class MQTTConnection : IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
+    /// 
+    #region PluginInfo
+    [PluginInfo(Name = "Client",
+                Category = "Network",
+                Version = "MQTT",
+                Help = "Client for communicating via the MQTT protocol",
+                Tags = "IoT, MQTT", Credits = "M2MQTT m2mqtt.wordpress.com, Jochen Leinberger, explorative-environments.net",
+                Author = "woei",
+                Bugs = "receiving delete retained message command",
+                AutoEvaluate = true)]
+    #endregion PluginInfo
+    public class MQTTClient: IPluginEvaluate, IDisposable, IPartImportsSatisfiedNotification
     {
         /// <summary>
         /// Quality of Service enum
         /// directly maps to to byte flags of the mqtt specification
         /// </summary>
-        public enum QOS { QoS_0, QoS_1, QoS_2, }
 
         #region pins
         [Input("ClientID", DefaultString = "v4mqtt", IsSingle = true)]
@@ -65,6 +77,9 @@ namespace VVVV.Nodes.MQTT
         [Input("Enabled", IsSingle = true)]
         public IDiffSpread<bool> FInEnabled;
 
+        [Output("Client")]
+        public ISpread<MqttClient> FOutClient;
+
         [Output("Connection Status")]
         public ISpread<string> FOutConnectionStatus;
 
@@ -76,11 +91,11 @@ namespace VVVV.Nodes.MQTT
         [Import()]
         public ILogger FLogger;
 
-        internal MqttClient FClient = null;
-        internal System.Text.UTF8Encoding UTF8Enc = new System.Text.UTF8Encoding();
+         MqttClient FClient = null;
+         System.Text.UTF8Encoding UTF8Enc = new System.Text.UTF8Encoding();
 
-        internal bool FNewSession = false;
-        internal bool FDisabled = false;
+         bool FNewSession = false;
+         bool FDisabled = false;
         #endregion fields
 
         public void OnImportsSatisfied()
@@ -102,7 +117,7 @@ namespace VVVV.Nodes.MQTT
         }
         #endregion dispose
 
-        public virtual void Evaluate(int spreadMax)
+        public void Evaluate(int spreadMax)
         {
             if ((!FInEnabled[0]) && FInEnabled.IsChanged)
             {
@@ -127,10 +142,6 @@ namespace VVVV.Nodes.MQTT
             }
         }
 
-        internal string PrependTime(string input)
-        {
-            return DateTime.Now.ToString() + ": " + input;
-        }
 
         /// <summary>
         /// Disconnects the client & removes the delegates from the events
@@ -144,16 +155,11 @@ namespace VVVV.Nodes.MQTT
                 {
                     FClient.Disconnect();
 
-                    FClient.MqttMsgPublished -= FClient_MqttMsgPublished;
-                    FClient.MqttMsgPublishReceived -= FClient_MqttMsgPublishReceived;
-                    FClient.MqttMsgSubscribed -= FClient_MqttMsgSubscribed;
-                    FClient.MqttMsgUnsubscribed -= FClient_MqttMsgUnsubscribed;
-
                     if (!FClient.IsConnected)
                     {
                         FOutIsConnected[0] = FClient.IsConnected;
                         FOutConnectionStatus[0] = PrependTime("Disconnected from broker");
-                        FClient.MqttMsgDisconnected -= FClient_MqttMsgDisconnected;
+                        FClient.ConnectionClosed -= FClient_ConnectionClosed;
                         return true;
                     }
                     else
@@ -179,12 +185,6 @@ namespace VVVV.Nodes.MQTT
             try
             {
                 FClient = new MqttClient(FInBrokerAdress[0], FInPort[0], false, null);
-
-                FClient.MqttMsgDisconnected += FClient_MqttMsgDisconnected;
-                FClient.MqttMsgPublished += FClient_MqttMsgPublished;
-                FClient.MqttMsgPublishReceived += FClient_MqttMsgPublishReceived;
-                FClient.MqttMsgSubscribed += FClient_MqttMsgSubscribed;
-                FClient.MqttMsgUnsubscribed += FClient_MqttMsgUnsubscribed;
 
                 FOutConnectionStatus[0] = PrependTime("Initialize client for broker: " + FInBrokerAdress[0] + " at Port: " + FInPort[0]);
                 return true;
@@ -225,6 +225,7 @@ namespace VVVV.Nodes.MQTT
                     FOutConnectionStatus[0] += "try leaving more settings on default for compatibility with the broker";
 
                 FNewSession = true;
+                FOutClient[0] = FClient;
                 return true;
             }
             catch (Exception e)
@@ -236,38 +237,25 @@ namespace VVVV.Nodes.MQTT
             }
         }
 
+        internal string PrependTime(string input)
+        {
+            return DateTime.Now.ToString() + ": " + input;
+        }
+
         #region event methods
         /// <summary>
         /// strangely never gets raised
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void FClient_MqttMsgDisconnected(object sender, EventArgs e)
+        void FClient_ConnectionClosed(object sender, EventArgs e)
         {
             FOutIsConnected[0] = false;
             FOutConnectionStatus[0] = PrependTime("Disconnected from broker");
-            FClient.MqttMsgDisconnected -= FClient_MqttMsgDisconnected;
-        }
-
-        public virtual void FClient_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void FClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void FClient_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void FClient_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
-        {
-            throw new NotImplementedException();
+            FClient.ConnectionClosed -= FClient_ConnectionClosed;
         }
         #endregion event methods
     }
+
+    public enum QOS { QoS_0, QoS_1, QoS_2, }
 }

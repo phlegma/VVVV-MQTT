@@ -20,47 +20,39 @@ namespace VVVV.Nodes.MQTT
     /// including vvvv plugininterfacing
     /// </summary>
     #region PluginInfo
-    [PluginInfo(Name = "MQTT", 
+    [PluginInfo(Name = "Receiver",
                 Category = "Network",
-                Version = "Client",
-                Help = "Client for communicating via the MQTT protocol",
-                Tags = "IoT, MQTT", Credits = "M2MQTT m2mqtt.wordpress.com, Jochen Leinberger, explorative-environments.net", 
-                Author = "woei",
-                Bugs = "receiving delete retained message command",
-                AutoEvaluate = true)]
+                Version = "MQTT"
+                //Help = "Sends MQTT Messages to Broker via Client",
+                //Tags = "IoT, MQTT", Credits = "M2MQTT m2mqtt.wordpress.com, Jochen Leinberger, explorative-environments.net",
+                //Author = "woei",
+                //Bugs = "receiving delete retained message command",
+                //AutoEvaluate = true
+                )]
     #endregion PluginInfo
-    public class MQTTCommunication : MQTTConnection
+    public class MQTTReceiver : IPluginEvaluate, IDisposable
     {
         #region pins
-        [Input("Topic", DefaultString = "vvvv/topic")]
-        public ISpread<string> FInTopic;
+        [Input("Client", IsSingle = true)]
+        IDiffSpread<MqttClient> FInClient;
 
-        [Input("Message", DefaultString = "hello vvvv")]
-        public ISpread<string> FInMessage;
+        [Input("Topic", DefaultString = "vvvv/topic")]
+        ISpread<string> FInTopic;
 
         [Input("Qualiy of Service", DefaultEnumEntry = "QoS_0")]
-        public IDiffSpread<QOS> FInQoS;
-
-        [Input("Retained", IsBang = true)]
-        ISpread<bool> FInRetained;
-
-        [Input("Do Send", IsBang = true)]
-        ISpread<bool> FInSend;
+        IDiffSpread<QOS> FInQoS;
 
         [Input("Remove Retained", IsBang = true)]
         ISpread<bool> FInRemoveRetained;
 
-        [Input("Receive")]
-        ISpread<bool> FInReceive;
-
         [Output("Topic")]
-        public ISpread<string> FOutTopic;
+        ISpread<string> FOutTopic;
 
         [Output("Message")]
-        public ISpread<string> FOutMessage;
+        ISpread<string> FOutMessage;
 
         [Output("Qualiy of Service")]
-        public ISpread<QOS> FOutQoS;
+        ISpread<QOS> FOutQoS;
 
         [Output("Is Retained")]
         ISpread<bool> FOutIsRetained;
@@ -69,13 +61,19 @@ namespace VVVV.Nodes.MQTT
         ISpread<bool> FOutOnData;
 
         [Output("Publish Queue Count", Visibility = PinVisibility.OnlyInspector)]
-        public ISpread<int> FOutboundCount;
+        ISpread<int> FOutboundCount;
 
         [Output("Message Status")]
-        public ISpread<string> FOutMessageStatus;
+        ISpread<string> FOutMessageStatus;
         #endregion pins
 
         #region fields
+        [Import()]
+        public ILogger FLogger;
+
+        private MqttClient FClient = null;
+        private System.Text.UTF8Encoding UTF8Enc = new System.Text.UTF8Encoding();
+        bool FNewSession = false;
         Queue<string> FMessageStatusQueue = new Queue<string>();
 
         HashSet<ushort> FPublishStatus = new HashSet<ushort>(); //keeps track received-confirmations of published packets
@@ -86,7 +84,7 @@ namespace VVVV.Nodes.MQTT
         Dictionary<ushort, Tuple<string, QOS>> FUnsubscribeStatus = new Dictionary<ushort, Tuple<string, QOS>>(); //matches unsubscribe commands to packet ids
         #endregion fields
 
-        public override void Dispose()
+        public void Dispose()
         {
             try
             {
@@ -97,12 +95,20 @@ namespace VVVV.Nodes.MQTT
             {
                 FLogger.Log(e);
             }
-            base.Dispose();
+            Dispose();
         }
 
-        public override void Evaluate(int spreadMax)
+        public void Evaluate(int spreadMax)
         {
-            base.Evaluate(spreadMax);
+
+            if ((FInClient[0] != null) && FInClient.IsChanged)
+            {
+                FClient = FInClient[0];
+                FClient.MqttMsgPublished += FClient_MqttMsgPublished;
+                FClient.MqttMsgPublishReceived += FClient_MqttMsgPublishReceived;
+                FClient.MqttMsgSubscribed += FClient_MqttMsgSubscribed;
+                FClient.MqttMsgUnsubscribed += FClient_MqttMsgUnsubscribed;
+            }
 
             if ((FClient != null) && FClient.IsConnected)
             {
@@ -110,27 +116,15 @@ namespace VVVV.Nodes.MQTT
                 List<Tuple<string, QOS>> newSubscriptions = new List<Tuple<string, QOS>>();
                 for (int i = 0; i < spreadMax; i++)
                 {
-                    #region sending
-                    if (FInSend[i])
-                    {
-                        var packetId = FClient.Publish(FInTopic[i], UTF8Enc.GetBytes(FInMessage[i]), (byte)FInQoS[i], FInRetained[i]);
-                        FPublishStatus.Add(packetId);
-                    }
-                    if (FInRemoveRetained[i])
-                        FClient.Publish(FInTopic[i], new byte[] { }, (byte)0, true);
-                    #endregion sending
-
                     //subscription and unsubscription has to be handled outside this loop
                     //unsubscription has to be triggered first (matters in the case of same topic with different qos)
                     #region receiving
-                    if (FInReceive[i])
-                    {
                         var tup = new Tuple<string, QOS>(FInTopic[i], FInQoS[i]);
                         currentSubscriptions.Add(tup);
-                        
+
                         if (!FSubscriptions.Remove(tup))
                             newSubscriptions.Add(tup);
-                    }
+
                     #endregion receiving
                 }
 
@@ -192,13 +186,18 @@ namespace VVVV.Nodes.MQTT
             FOutboundCount[0] = FPublishStatus.Count;
         }
 
+        private string PrependTime(string input)
+        {
+            return DateTime.Now.ToString() + ": " + input;
+        }
+
         #region events
         /// <summary>
         /// confirmation of the broker that a packet was successfully transmitted
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void FClient_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
+        public void FClient_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
             FMessageStatusQueue.Enqueue(PrependTime("published message with packet ID " + e.MessageId));
             FPublishStatus.Remove(e.MessageId);
@@ -209,7 +208,7 @@ namespace VVVV.Nodes.MQTT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e">packet data</param>
-        public override void FClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        public void FClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             FPacketQueue.Enqueue(e);
             FMessageStatusQueue.Enqueue(PrependTime("received topic " + e.Topic));
@@ -220,7 +219,7 @@ namespace VVVV.Nodes.MQTT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void FClient_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
+        public void FClient_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
             var issued = FSubscribeStatus[e.MessageId];
             FMessageStatusQueue.Enqueue(PrependTime("subscribed to " + issued.Item1));
@@ -232,7 +231,7 @@ namespace VVVV.Nodes.MQTT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void FClient_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
+        public void FClient_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
         {
             var issued = FUnsubscribeStatus[e.MessageId];
             FMessageStatusQueue.Enqueue(PrependTime("unsubscribed from " + issued.Item1));
